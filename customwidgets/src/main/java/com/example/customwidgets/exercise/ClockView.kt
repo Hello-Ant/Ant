@@ -84,17 +84,9 @@ class ClockView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         setMeasuredDimension(
-            getMeasureSize(defaultWidth, widthMeasureSpec),
-            getMeasureSize(defaultHeight, heightMeasureSpec)
+            resolveSize(defaultWidth, widthMeasureSpec),
+            resolveSize(defaultHeight, heightMeasureSpec)
         )
-    }
-
-    private fun getMeasureSize(defaultSize: Int, measureSpec: Int): Int {
-        val specSize = MeasureSpec.getSize(measureSpec)
-        return when (MeasureSpec.getMode(measureSpec)) {
-            MeasureSpec.EXACTLY -> specSize
-            else -> defaultSize
-        }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
