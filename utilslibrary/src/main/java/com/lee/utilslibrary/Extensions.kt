@@ -30,9 +30,12 @@ import android.util.TypedValue
  * @date on 2020/4/9 14:26.
  */
 
-val Float.dp2px: Float
+val Float.dp: Float
     get() = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
         this,
         Resources.getSystem().displayMetrics
     )
+
+val Int.dp: Float
+    get() = this.toFloat().dp
