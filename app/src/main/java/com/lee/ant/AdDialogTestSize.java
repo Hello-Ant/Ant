@@ -20,13 +20,14 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -34,52 +35,97 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-public class AdDialog extends DialogFragment {
-    private static final String TAG_DIALOG = "AdDialog";
+import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Field;
+
+public class AdDialogTestSize extends DialogFragment {
+    private static final String TAG = "AdDialogTestSize";
 
     private ValueAnimator mAnimator;
 
-    private static volatile AdDialog mInstance;
+    private static volatile AdDialogTestSize mInstance;
 
-    @SuppressLint("ValidFragment")
-    private AdDialog() {
+    private AdDialogTestSize() {
     }
 
-    public static AdDialog getInstance() {
+    public static AdDialogTestSize getInstance() {
         if (mInstance == null) {
-            synchronized (AdDialog.class) {
+            synchronized (AdDialogTestSize.class) {
                 if (mInstance == null) {
-                    mInstance = new AdDialog();
+                    mInstance = new AdDialogTestSize();
                 }
             }
         }
         return mInstance;
     }
 
+    @Override
+    public void show(@NotNull FragmentManager manager, String tag) {
+        try {
+            Field mDismissed = getClass().getSuperclass().getDeclaredField("mDismissed");
+            Field mShownByMe = getClass().getSuperclass().getDeclaredField("mShownByMe");
+            mDismissed.setAccessible(true);
+            mShownByMe.setAccessible(true);
+            mDismissed.setBoolean(this, false);
+            mShownByMe.setBoolean(this, true);
+        } catch (NoSuchFieldException e) {
+            Log.e(TAG, "show: " + e.getMessage());
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "show: " + e.getMessage());
+        }
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(this, tag);
+        ft.commitAllowingStateLoss();
+    }
+
     /**
      * 展示广告
      */
     public void showAd(@NonNull FragmentManager fm) {
-        show(fm, TAG_DIALOG);
+        show(fm, TAG);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.dialog_advertising, container, false);
-        bindViewData(view);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.dialog_advertising_test, container, false);
+//        bindViewData(view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        /*view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "onViewCreated: width: " + view.getWidth() + "#height: " + view.getHeight());
+                final View iv = view.findViewById(R.id.ivAd);
+                Log.d(TAG, "onViewCreated: " + iv.getWidth() + "#" + iv.getHeight());
+            }
+        }, 50L);*/
+        final View iv = view.findViewById(R.id.ivAd);
+        iv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onGlobalLayout() {
+                iv.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                Log.d(TAG, "onViewCreated: width: " + view.getWidth() + "#height: " + view.getHeight());
+                Log.d(TAG, "onViewCreated: " + iv.getWidth() + "#" + iv.getHeight());
+            }
+        });
     }
 
     private void bindViewData(final ViewGroup container) {
@@ -92,33 +138,8 @@ public class AdDialog extends DialogFragment {
 //        lp.leftMargin = (int) getResources().getDimension(R.dimen.ad_left_margin);
         container.addView(ivCenter, lp);
 
-        Glide.with(getContext()).load(R.mipmap.ic_small)
-                .diskCacheStrategy(DiskCacheStrategy.DATA).listener(new RequestListener<Drawable>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                dismiss();
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                Log.e(TAG_DIALOG, "run: " + mWidth + "&" + mHeight);
-                Log.e(TAG_DIALOG, "onResourceReady: ");
-                ivCenter.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mWidth = ivCenter.getWidth();
-                        mHeight = ivCenter.getHeight();
-                        mTranslationWidth = lp.leftMargin + mWidth;
-                        mTranslationHeight = container.getHeight() >> 1;
-                        Log.e(TAG_DIALOG, "run: " + mWidth + "&" + mHeight);
-                        startAnimator(ivCenter, Location.CENTER);
-                    }
-                }, 50L);
-                return false;
-            }
-        }).into(ivCenter);
-        /*{
+        /*Glide.with(getContext()).load(R.mipmap.ic_small).asGif()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE).listener(new RequestListener<Integer, GifDrawable>() {
             @Override
             public boolean onException(Exception e, Integer model, Target<GifDrawable> target, boolean isFirstResource) {
                 dismiss();
@@ -127,8 +148,8 @@ public class AdDialog extends DialogFragment {
 
             @Override
             public boolean onResourceReady(GifDrawable resource, Integer model, Target<GifDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                Log.e(TAG_DIALOG, "run: " + mWidth + "&" + mHeight);
-                Log.e(TAG_DIALOG, "onResourceReady: ");
+                Log.e(TAG, "run: " + mWidth + "&" + mHeight);
+                Log.e(TAG, "onResourceReady: ");
                 ivCenter.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -136,7 +157,7 @@ public class AdDialog extends DialogFragment {
                         mHeight = ivCenter.getHeight();
                         mTranslationWidth = lp.leftMargin + mWidth;
                         mTranslationHeight = container.getHeight() >> 1;
-                        Log.e(TAG_DIALOG, "run: " + mWidth + "&" + mHeight);
+                        Log.e(TAG, "run: " + mWidth + "&" + mHeight);
                         startAnimator(ivCenter, Location.CENTER);
                     }
                 }, 50L);
