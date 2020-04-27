@@ -98,14 +98,10 @@ class BlockingBlurController(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     blurView.get()?.viewTreeObserver?.removeOnGlobalLayoutListener(this)
                 } else {
-                    legacyRemoveOnGlobalLayoutListener()
+                    @Suppress("DEPRECATION")
+                    blurView.get()?.viewTreeObserver?.removeGlobalOnLayoutListener(this)
                 }
                 init(blurView.get()!!.measuredWidth, blurView.get()!!.measuredHeight)
-            }
-
-            fun legacyRemoveOnGlobalLayoutListener() {
-                @Suppress("DEPRECATION")
-                blurView.get()?.viewTreeObserver?.removeGlobalOnLayoutListener(this)
             }
         })
     }
