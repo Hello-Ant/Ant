@@ -23,7 +23,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
-import com.lee.utilslibrary.dp2px
+import com.lee.utilslibrary.dp
 import java.util.*
 import kotlin.math.min
 
@@ -42,23 +42,23 @@ class ClockView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var cy = 0f
     private var radius = 0f
 
-    private val defaultWidth = 300f.dp2px.toInt()
-    private val defaultHeight = 300f.dp2px.toInt()
+    private val defaultWidth = 300f.dp.toInt()
+    private val defaultHeight = 300f.dp.toInt()
 
     // 时钟圆环宽度
-    private val ringWidth = 5f.dp2px
+    private val ringWidth = 5f.dp
     private val ringColor = Color.RED
 
     private val hColor = Color.BLACK
     private val mColor = Color.BLACK
     private val sColor = Color.RED
 
-    private var hWidth = 15f.dp2px
-    private var mWidth = 10f.dp2px
-    private var sWidth = 5f.dp2px
+    private var hWidth = 15f.dp
+    private var mWidth = 10f.dp
+    private var sWidth = 5f.dp
 
-    private val defaultLength = 10f.dp2px
-    private val specialLength = 20f.dp2px
+    private val defaultLength = 10f.dp
+    private val specialLength = 20f.dp
 
     private val num = arrayOf("12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11")
 

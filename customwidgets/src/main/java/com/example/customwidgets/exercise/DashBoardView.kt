@@ -20,7 +20,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import com.lee.utilslibrary.dp2px
+import com.lee.utilslibrary.dp
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
@@ -38,10 +38,10 @@ import kotlin.math.sin
 class DashBoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val openCorner = 120f
 
-    private val ringWidth = 2f.dp2px
-    private val dashWidth = 2f.dp2px
-    private val dashLength = 10f.dp2px
-    private val pointWidth = 3f.dp2px
+    private val ringWidth = 2f.dp
+    private val dashWidth = 2f.dp
+    private val dashLength = 10f.dp
+    private val pointWidth = 3f.dp
 
     private var dash: Path = Path()
     private lateinit var dashEffect: PathDashPathEffect
