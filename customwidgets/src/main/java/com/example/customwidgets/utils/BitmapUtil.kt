@@ -32,7 +32,7 @@ import android.widget.ImageView
  * @author Ant
  * @date on 2020/4/3 16:17.
  */
-object BitmapOfViewUtil {
+object BitmapUtil {
 
     /**
      * 获取view里面的内容

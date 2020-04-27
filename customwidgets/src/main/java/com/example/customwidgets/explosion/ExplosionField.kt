@@ -29,7 +29,7 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.core.view.get
 import com.example.customwidgets.explosion.factory.FallingParticleFactory
-import com.example.customwidgets.utils.BitmapOfViewUtil
+import com.example.customwidgets.utils.BitmapUtil
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -140,7 +140,7 @@ class ExplosionField(
         val anim =
             ExplosionAnimator(
                 this,
-                BitmapOfViewUtil.createBitmapFromView(view),
+                BitmapUtil.createBitmapFromView(view),
                 bound,
                 particleFactory
             )
