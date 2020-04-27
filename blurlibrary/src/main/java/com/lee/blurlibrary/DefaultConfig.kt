@@ -13,10 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+@file:JvmName("DefaultConfig")
 
 package com.lee.blurlibrary
-
-import android.graphics.Canvas
 
 /**
  * <p>------------------------------------------------------
@@ -26,23 +25,15 @@ import android.graphics.Canvas
  * <p>
  *
  * @author Ant
- * @date on 2020/4/13 14:36.
+ * @date on 2020/4/27 14:01.
  */
 
-interface BlurController : BlurFacade {
+internal const val DEFAULT_SCALE_FACTOR = 8f
+internal const val DEFAULT_BLUR_RADIUS = 16f
 
-    /**
-     * 高斯模糊，并将模糊的图片绘制到画布上
-     */
-    fun draw(canvas: Canvas): Boolean
-
-    /**
-     * 更新高斯模糊图片尺寸
-     */
-    fun updateBlurViewSize()
-
-    /**
-     * 释放资源
-     */
-    fun destroy()
-}
+/**
+ * Bitmap size should be divisible by ROUNDING_VALUE to meet stride requirement.
+ * This will help avoiding an extra bitmap allocation when passing the bitmap to RenderScript for blur.
+ * Usually it's 16, but on Samsung devices it's 64 for some reason.
+ */
+internal const val ROUNDING_VALUE = 64

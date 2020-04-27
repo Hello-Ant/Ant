@@ -38,31 +38,6 @@ import kotlin.math.ceil
  * @date on 2020/4/13 15:23.
  */
 
-/**
- * Bitmap size should be divisible by ROUNDING_VALUE to meet stride requirement.
- * This will help avoiding an extra bitmap allocation when passing the bitmap to RenderScript for blur.
- * Usually it's 16, but on Samsung devices it's 64 for some reason.
- */
-private const val ROUNDING_VALUE = 64
-
-/**
- * Rounds a value to the nearest divisible by {@link #ROUNDING_VALUE} to meet stride requirement
- */
-internal fun roundSize(value: Int): Int {
-    if (value.rem(ROUNDING_VALUE) == 0) {
-        return value
-    }
-    return value.minus(value.rem(ROUNDING_VALUE)).plus(ROUNDING_VALUE)
-}
-
-internal fun downScaleSize(value: Int): Int {
-    return ceil(value.div(DEFAULT_SCALE_FACTOR)).toInt()
-}
-
-internal fun isZeroSized(width: Int, height: Int): Boolean {
-    return downScaleSize(width) == 0 || downScaleSize(height) == 0
-}
-
 class BlockingBlurController(
     blurView: BlurView,
     rootView: View,
@@ -129,6 +104,7 @@ class BlockingBlurController(
             }
 
             fun legacyRemoveOnGlobalLayoutListener() {
+                @Suppress("DEPRECATION")
                 blurView.get()?.viewTreeObserver?.removeGlobalOnLayoutListener(this)
             }
         })
@@ -162,6 +138,24 @@ class BlockingBlurController(
 
         internalBitmap =
             Bitmap.createBitmap(scaleWidth, scaleHeight, blurAlgorithm.getSupportedBitmapConfig())
+    }
+
+    /**
+     * Rounds a value to the nearest divisible by {@link #ROUNDING_VALUE} to meet stride requirement
+     */
+    private fun roundSize(value: Int): Int {
+        if (value.rem(ROUNDING_VALUE) == 0) {
+            return value
+        }
+        return value.minus(value.rem(ROUNDING_VALUE)).plus(ROUNDING_VALUE)
+    }
+
+    private fun downScaleSize(value: Int): Int {
+        return ceil(value.div(DEFAULT_SCALE_FACTOR)).toInt()
+    }
+
+    private fun isZeroSized(width: Int, height: Int): Boolean {
+        return downScaleSize(width) == 0 || downScaleSize(height) == 0
     }
 
     override fun draw(canvas: Canvas): Boolean {
