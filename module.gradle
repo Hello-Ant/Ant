@@ -1,0 +1,72 @@
+/*
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+if (isModule) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+def v = rootProject.ext.android
+def dc = rootProject.ext.defaultConfig
+def ds = rootProject.ext.dependencies
+
+android {
+    compileSdkVersion v.compileSdkVersion
+    buildToolsVersion v.buildToolsVersion
+    defaultConfig {
+        minSdkVersion dc.minSdkVersion
+        targetSdkVersion dc.targetSdkVersion
+        versionCode dc.versionCode
+        versionName dc.versionName
+        testInstrumentationRunner dc.testInstrumentationRunner
+    }
+    sourceSets {
+        main {
+            if (isModule) {
+                manifest.srcFile 'src/main/component/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                resources {
+                    // 排除调试文件
+                    exclude 'src/main/component/*'
+                }
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation ds['kotlin-stdlib-jdk']
+
+    testImplementation ds['junit']
+    androidTestImplementation ds['ext-junit']
+    androidTestImplementation ds['espresso-core']
+}
