@@ -14,10 +14,11 @@
  *  limitations under the License.
  */
 
-package com.example.customwidgets
+package com.example.customwidgets.debug
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.customwidgets.R
 import com.example.customwidgets.explosion.ExplosionField
 import com.example.customwidgets.explosion.factory.FallingParticleFactory
 import kotlinx.android.synthetic.main.activity_main.*

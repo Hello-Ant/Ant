@@ -10,6 +10,7 @@ android {
         applicationId dc.applicationId
         multiDexEnabled dc.multiDexEnabled
     }
+    resourcePrefix 'app_'
 }
 
 dependencies {
@@ -22,4 +23,9 @@ dependencies {
     annotationProcessor ds['glide-compiler']
 
     implementation ds['okhttp']
+
+    if (!isModule) {
+        implementation project(':blurlibrary')
+        implementation project(':customwidgets')
+    }
 }
