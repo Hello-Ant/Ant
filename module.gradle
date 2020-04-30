@@ -42,7 +42,7 @@ android {
             if (isModule) {
                 manifest.srcFile 'src/main/component/AndroidManifest.xml'
                 // 调试用的源码参与编译
-                java.srcDirs 'src/main/component/debug'
+                java.srcDirs 'src/main/component/java'
                 res.srcDirs 'src/main/component/res'
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'

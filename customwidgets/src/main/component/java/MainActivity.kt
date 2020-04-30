@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.customwidgets.debug
+package com.example.customwidgets.java
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

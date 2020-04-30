@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.lee.blurlibrary.debug
+package com.lee.blurlibrary.java
 
 import android.os.Build
 import android.os.Bundle
