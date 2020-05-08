@@ -20,12 +20,13 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Paint.ANTI_ALIAS_FLAG
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import com.lee.utilslibrary.dp
 import kotlin.math.cos
-import kotlin.math.min
 import kotlin.math.sin
-import kotlin.properties.Delegates
 
 /**
  * <p>------------------------------------------------------
@@ -35,51 +36,50 @@ import kotlin.properties.Delegates
  * <p>
  *
  * @author Ant
- * @date on 2020/4/10 14:45.
+ * @date on 2020/5/3 7:31.
  */
-class PieView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class PieView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
 
-    private var radius by Delegates.notNull<Float>()
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    companion object {
+        private const val SELECT_INDEX = 2;
+        private val OFFSET = 10.dp
+    }
 
-    private var cx = 0f
-    private var cy = 0f
+    private val colors = arrayOf(Color.YELLOW, Color.BLUE, Color.MAGENTA, Color.GREEN)
+    private val arcs = arrayOf(60f, 100f, 120f, 80f)
 
-    private var selectIndex = 2
-
-    private val angles = floatArrayOf(50f, 100f, 80f, 60f, 70f)
-    private val colors = intArrayOf(Color.BLUE, Color.RED, Color.CYAN, Color.GREEN, Color.YELLOW)
+    private val rectF = RectF()
+    private val paint = Paint(ANTI_ALIAS_FLAG)
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        cx = w.div(2).toFloat()
-        cy = h.div(2).toFloat()
-        radius = min(cx, cy) * 0.8f
+        rectF.top = paddingTop.toFloat()
+        rectF.left = paddingLeft.toFloat()
+        rectF.right = w - paddingRight.toFloat()
+        rectF.bottom = h - paddingBottom.toFloat()
     }
 
     override fun onDraw(canvas: Canvas) {
-        var startAngle = 0f
-        val select = selectIndex
-        for ((index, angle) in angles.withIndex()) {
-            if (index == select) {
-                canvas.save()
-                val radius = Math.toRadians(startAngle.plus(angle.div(2)).toDouble())
-                canvas.translate(cos(radius).times(20).toFloat(), sin(radius).times(20).toFloat())
-            }
+        var startCorner = 0f
+        for ((index, sweepCorner) in arcs.withIndex()) {
             paint.color = colors[index]
-            canvas.drawArc(
-                cx - radius,
-                cy - radius,
-                cx + radius,
-                cy + radius,
-                startAngle,
-                angle,
-                true,
-                paint
-            )
-            if (index == select) {
+
+            if (index == SELECT_INDEX) {
+                canvas.save()
+                val radians = Math.toRadians(startCorner + sweepCorner.div(2f).toDouble()).toFloat()
+                canvas.translate(cos(radians) * OFFSET, sin(radians) * OFFSET)
+            }
+
+            canvas.drawArc(rectF, startCorner, sweepCorner, true, paint)
+
+            if (index == SELECT_INDEX) {
                 canvas.restore()
             }
-            startAngle += angle
+
+            startCorner += sweepCorner
         }
     }
 

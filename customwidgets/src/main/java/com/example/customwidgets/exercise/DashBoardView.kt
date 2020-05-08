@@ -18,11 +18,11 @@ package com.example.customwidgets.exercise
 
 import android.content.Context
 import android.graphics.*
+import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.util.AttributeSet
 import android.view.View
 import com.lee.utilslibrary.dp
 import kotlin.math.cos
-import kotlin.math.min
 import kotlin.math.sin
 
 /**
@@ -33,78 +33,105 @@ import kotlin.math.sin
  * <p>
  *
  * @author Ant
- * @date on 2020/4/9 14:48.
+ * @date on 2020/5/3 4:48.
  */
-class DashBoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
-    private val openCorner = 120f
+class DashBoardView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
 
-    private val ringWidth = 2f.dp
-    private val dashWidth = 2f.dp
-    private val dashLength = 10f.dp
-    private val pointWidth = 3f.dp
+    companion object {
+        const val TICK_MARK_NUM = 20
+        const val OPEN_CORNER = 120f
+        val RING_WIDTH = 2.dp
 
-    private var dash: Path = Path()
-    private lateinit var dashEffect: PathDashPathEffect
-    private var path: Path = Path()
+        val DASH_WIDTH = 2.dp
+        val DASH_LENGTH = 10.dp
+
+        val POINTER_WIDTH = 3.dp
+    }
+
+    private var startAngle = 0f
+    private var sweepAngle = 0f
+
+    private val paint = Paint(ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        strokeWidth = RING_WIDTH
+    }
+    private val rectF = RectF()
+    private val path = Path()
     private val pathMeasure = PathMeasure()
 
-    private var cx = 0f
-    private var cy = 0f
-    private var radius = 0f
+    /**
+     * 必须设置虚线的间距，不然无效
+     */
+    private lateinit var pathDashPathEffect: PathDashPathEffect
 
-    private var paint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private var pointPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val dashPath = Path()
+
+    private var pointerLength = 0f
+    private var pointerExtraLength = 0f
+
+    private var centerX = 0f
+    private var centerY = 0f
+    private val pointerPaint = Paint(ANTI_ALIAS_FLAG).apply {
+        color = Color.RED
+        style = Paint.Style.STROKE
+        strokeCap = Paint.Cap.ROUND
+        strokeWidth = POINTER_WIDTH
+    }
 
     init {
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = ringWidth
-        pointPaint.style = Paint.Style.STROKE
-        pointPaint.strokeWidth = pointWidth
-        pointPaint.color = Color.RED
-        pointPaint.strokeCap = Paint.Cap.ROUND
-        dash.addRect(0f, 0f, dashWidth, dashLength, Path.Direction.CCW)
+        startAngle = OPEN_CORNER.div(2f) + 90
+        sweepAngle = 360 - OPEN_CORNER
+
+        dashPath.addRect(0f, 0f, DASH_WIDTH, DASH_LENGTH, Path.Direction.CCW)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        cx = w / 2f
-        cy = h / 2f
-        radius = min(cx, cy) * 0.8f
+        centerX = w.shr(1).toFloat()
+        centerY = h.shr(1).toFloat()
 
-        path.addArc(
-            cx - radius,
-            cy - radius,
-            cx + radius,
-            cy + radius,
-            90 + openCorner / 2,
-            360 - openCorner
-        )
+        rectF.top = paddingTop.toFloat() + RING_WIDTH
+        rectF.left = paddingLeft.toFloat() + RING_WIDTH
+        rectF.right = w - paddingRight.toFloat() - RING_WIDTH
+        rectF.bottom = h - paddingBottom.toFloat() - RING_WIDTH
+        path.addArc(rectF, startAngle, sweepAngle)
+
         pathMeasure.setPath(path, false)
-        dashEffect =
-            PathDashPathEffect(
-                dash,
-                (pathMeasure.length - dashWidth) / 20,
-                0f,
-                PathDashPathEffect.Style.ROTATE
-            )
+        pathDashPathEffect = PathDashPathEffect(
+            dashPath,
+            pathMeasure.length.minus(DASH_WIDTH).div(TICK_MARK_NUM),
+            0f,
+            PathDashPathEffect.Style.ROTATE
+        )
+
+        pointerLength = (w - paddingRight - paddingLeft) / 2f * 0.8f
+        pointerExtraLength = pointerLength * 0.1f
     }
 
     override fun onDraw(canvas: Canvas) {
         canvas.drawPath(path, paint)
-        paint.pathEffect = dashEffect
+        paint.pathEffect = pathDashPathEffect
         canvas.drawPath(path, paint)
         paint.pathEffect = null
 
-        drawPoint(canvas, 10)
-        canvas.drawCircle(cx, cy, pointWidth, pointPaint)
+        drawPointer(canvas, 20)
+        canvas.drawCircle(centerX, centerY, RING_WIDTH, pointerPaint)
     }
 
-    private fun drawPoint(canvas: Canvas, index: Int) {
+    private fun drawPointer(canvas: Canvas, index: Int) {
+        val corner = startAngle + index * sweepAngle.div(TICK_MARK_NUM).toDouble()
+        val radians = Math.toRadians(corner)
+        val cosValue = cos(radians).toFloat()
+        val sinValue = sin(radians).toFloat()
         canvas.drawLine(
-            cx,
-            cy + 20,
-            cx + cos(Math.toRadians(90.toDouble() + openCorner / 2 + (360 - openCorner) / 20f * index)).toFloat() * radius * 0.7f,
-            cy + sin(Math.toRadians(90.toDouble() + openCorner / 2 + (360 - openCorner) / 20f * index)).toFloat() * radius * 0.7f,
-            pointPaint
+            centerX - cosValue * pointerExtraLength,
+            centerY - sinValue * pointerExtraLength,
+            centerX + cosValue * pointerLength,
+            centerY + sinValue * pointerLength,
+            pointerPaint
         )
     }
 }
