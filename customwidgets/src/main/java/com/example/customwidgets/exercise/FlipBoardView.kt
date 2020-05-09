@@ -76,7 +76,7 @@ class FlipBoardView @JvmOverloads constructor(
         bitmapSize = min(
             w - paddingLeft - paddingRight,
             h - paddingTop - paddingBottom
-        ).toFloat()
+        ).times(0.7f)
         bitmap = BitmapUtils.createBitmap(bitmapSize, R.mipmap.ic_avatar, context)
 
         rectTop.left = -centerX

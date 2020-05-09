@@ -23,7 +23,7 @@ import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.widget.ImageView
-import kotlin.math.max
+import kotlin.math.min
 
 /**
  * <p>------------------------------------------------------
@@ -62,19 +62,14 @@ object BitmapUtils {
     fun createBitmap(size: Float, resId: Int, context: Context): Bitmap {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
-        val bitmap = BitmapFactory.decodeResource(context.resources, resId)
-        val scale = max(bitmap.width, bitmap.height).div(size).toInt()
+        BitmapFactory.decodeResource(context.resources, resId, options)
+//        val scale = max(options.outWidth, options.outHeight).div(size).toInt()
         options.inJustDecodeBounds = false
-        options.inSampleSize = max(1, scale)
+//        options.inSampleSize = max(1, scale)
+        options.inDensity = min(options.outWidth, options.outHeight)
+        options.inTargetDensity = size.toInt()
 
-        val result = BitmapFactory.decodeResource(context.resources, resId)
-        if (bitmap != result) {
-            bitmap.recycle()
-        }
-        return result
+        return BitmapFactory.decodeResource(context.resources, resId, options)
     }
 
-    fun createBitmap(bitmap: Bitmap): Bitmap {
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height.div(2))
-    }
 }
