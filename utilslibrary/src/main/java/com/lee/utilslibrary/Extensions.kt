@@ -24,6 +24,9 @@ import android.util.TypedValue
  * <p>Copyright (C) 2020 wasu company, All rights reserved.
  * <p>------------------------------------------------------
  * <p>
+ *     转换成px需要加0.5，是为了四舍五入，精度计算
+ *      1.3 + 0.5 toInt = 1
+ *      1.8 + 0.5 toInt = 2
  * <p>
  *
  * @author Ant
