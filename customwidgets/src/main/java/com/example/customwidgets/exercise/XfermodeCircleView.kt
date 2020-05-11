@@ -16,10 +16,12 @@
 
 package com.example.customwidgets.exercise
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.graphics.withScale
 import com.example.customwidgets.R
 import com.lee.utilslibrary.BitmapUtils
 import com.lee.utilslibrary.dp
@@ -58,6 +60,25 @@ class XfermodeCircleView @JvmOverloads constructor(
     private var radius = 0f
     private var size = 0
 
+    private var scaleFraction = 1f
+        set(value) {
+            if (field == value) {
+                return
+            }
+            field = value
+            invalidate()
+        }
+
+    private val anim by lazy {
+        ObjectAnimator.ofFloat(this, "scaleFraction", 0f, 1f).apply {
+            duration = 1000
+        }
+    }
+
+    fun startAnim() {
+        anim.start()
+    }
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         centerX = w.div(2f)
         centerY = h.div(2f)
@@ -71,20 +92,29 @@ class XfermodeCircleView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        val count =
-            canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), paint, Canvas.ALL_SAVE_FLAG)
-        paint.style = Paint.Style.FILL
-        canvas.drawCircle(centerX, centerY, radius, paint)
-        paint.xfermode = srcIn
-        canvas.drawBitmap(
-            bitmap!!,
-            centerX - radius,
-            centerY - radius,
-            paint
-        )
-        canvas.restoreToCount(count)
-        paint.xfermode = null
-        paint.style = Paint.Style.STROKE
-        canvas.drawCircle(centerX, centerY, ringRadius, paint)
+        canvas.withScale(scaleFraction, scaleFraction, centerX, centerY) {
+            val count =
+                canvas.saveLayer(
+                    0f,
+                    0f,
+                    width.toFloat(),
+                    height.toFloat(),
+                    paint,
+                    Canvas.ALL_SAVE_FLAG
+                )
+            paint.style = Paint.Style.FILL
+            canvas.drawCircle(centerX, centerY, radius, paint)
+            paint.xfermode = srcIn
+            canvas.drawBitmap(
+                bitmap!!,
+                centerX - radius,
+                centerY - radius,
+                paint
+            )
+            canvas.restoreToCount(count)
+            paint.xfermode = null
+            paint.style = Paint.Style.STROKE
+            canvas.drawCircle(centerX, centerY, ringRadius, paint)
+        }
     }
 }
