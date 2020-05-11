@@ -43,13 +43,14 @@ class XfermodeCircleView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private var ringWidth = 3.dp
+    private val ringWidth = 3.dp
     private var ringRadius = 0f
 
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        strokeWidth = ringWidth.times(2f)
+    }
 
     private val srcIn = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-    private val srcOver = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
     private var bitmap: Bitmap? = null
 
     private var centerX = 0f
@@ -72,6 +73,7 @@ class XfermodeCircleView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         val count =
             canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), paint, Canvas.ALL_SAVE_FLAG)
+        paint.style = Paint.Style.FILL
         canvas.drawCircle(centerX, centerY, radius, paint)
         paint.xfermode = srcIn
         canvas.drawBitmap(
@@ -83,7 +85,6 @@ class XfermodeCircleView @JvmOverloads constructor(
         canvas.restoreToCount(count)
         paint.xfermode = null
         paint.style = Paint.Style.STROKE
-        paint.strokeWidth = ringWidth.times(2f)
         canvas.drawCircle(centerX, centerY, ringRadius, paint)
     }
 }
