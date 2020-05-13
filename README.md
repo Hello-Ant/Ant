@@ -1,5 +1,5 @@
 # Ant
-Fuck the source code.
+Read the fucking source code.
 
 **1.模块化：将公共的独立的点提取出来做为单独的模块(library)，不能单独运行调试。**
 
