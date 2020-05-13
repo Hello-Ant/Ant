@@ -17,7 +17,7 @@
 // ext是Groovy提供的扩展参数，不可修改
 ext {
     // 组件开关: true 组件 false 集成
-    isModule = false
+    isModule = true
 
     // 定义Map，键值对，逗号分隔
     android = [
