@@ -30,5 +30,5 @@ dependencies {
     implementation ds['appcompat']
     implementation ds['core-ktx']
     implementation ds['constraintlayout']
-    implementation project(':lib-utils')
+    implementation project(':lib-base')
 }

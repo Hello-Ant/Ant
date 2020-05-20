@@ -1,4 +1,4 @@
-include ':app', ':lib-gaussianBlur', ':lib-widgets', ':lib-utils'
+include ':app', ':lib-gaussianBlur', ':lib-widgets', ':lib-base'
 rootProject.name='Ant'
-include ':ant-note'
+include ':ant-notes'
 include ':lib-leetCode'
