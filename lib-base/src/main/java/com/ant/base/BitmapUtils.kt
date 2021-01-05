@@ -72,4 +72,21 @@ object BitmapUtils {
         return BitmapFactory.decodeResource(context.resources, resId, options)
     }
 
+    fun createBitmap(width: Int, height: Int, resId: Int, context: Context): Bitmap {
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeResource(context.resources, resId, options)
+        val aspectRatio = width / height.toFloat()
+        val bitmapAspectRatio = options.outWidth / options.outHeight.toFloat()
+        if (aspectRatio > bitmapAspectRatio) {
+            options.inDensity = options.outHeight
+            options.inTargetDensity = height
+        } else {
+            options.inDensity = options.outWidth
+            options.inTargetDensity = width
+        }
+        options.inJustDecodeBounds = false
+        return BitmapFactory.decodeResource(context.resources, resId, options)
+    }
+
 }

@@ -23,6 +23,54 @@
     android:orientation="vertical"
     tools:context=".java.MainActivity">
 
+    <com.ant.widgets.exercise.ZoomImageView
+        android:id="@+id/ziv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.ant.widgets.exercise.StarLayout
+        android:id="@+id/sl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <com.example.widgets.exercise.XfermodeCircleView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.example.widgets.exercise.XfermodeCircleView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.example.widgets.exercise.XfermodeCircleView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.example.widgets.exercise.XfermodeCircleView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.example.widgets.exercise.XfermodeCircleView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.example.widgets.exercise.XfermodeCircleView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.example.widgets.exercise.XfermodeCircleView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.example.widgets.exercise.XfermodeCircleView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.example.widgets.exercise.XfermodeCircleView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </com.ant.widgets.exercise.StarLayout>
+
     <ImageView
         android:id="@+id/iv_explosion"
         android:layout_width="wrap_content"
@@ -59,7 +107,8 @@
     <com.example.widgets.exercise.XfermodeCircleView
         android:id="@+id/xcv"
         android:layout_width="300dp"
-        android:layout_height="300dp" />
+        android:layout_height="300dp"
+        android:visibility="gone" />
 
     <com.example.widgets.exercise.DrawTextView
         android:layout_width="300dp"
@@ -87,7 +136,8 @@
     <com.example.widgets.exercise.FlipBoardView
         android:id="@+id/fbv"
         android:layout_width="280dp"
-        android:layout_height="280dp" />
+        android:layout_height="280dp"
+        android:visibility="gone" />
 
     <com.example.widgets.exercise.ProvincesView
         android:id="@+id/utv"

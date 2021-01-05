@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE">
+
+    <com.lee.ant.seven.HahaPager
+        android:id="@+id/litePager"
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        app:autoScroll="false"
+        app:autoScrollInterval="2000"
+        app:flingDuration="500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/layout_card_view_0" />
+
+        <include layout="@layout/layout_card_view_1" />
+
+        <include layout="@layout/layout_card_view_2" />
+
+        <include layout="@layout/layout_card_view_3" />
+
+        <include layout="@layout/layout_card_view_4" />
+
+        <include layout="@layout/layout_card_view_1" />
+
+        <include layout="@layout/layout_card_view_3" />
+    </com.lee.ant.seven.HahaPager>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/litePager">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="24dp"
+                android:textColor="@color/colorAccent"
+                android:textSize="28sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/status" />
+
+            <Switch
+                android:id="@+id/orientationSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="4dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                app:layout_constraintStart_toEndOf="@+id/horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/status" />
+
+            <TextView
+                android:id="@+id/vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="4dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/vertical"
+                app:layout_constraintStart_toEndOf="@+id/orientationSwitch"
+                app:layout_constraintTop_toBottomOf="@+id/status" />
+
+            <TextView
+                android:id="@+id/threeChild"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="8dp"
+                android:text="@string/three_child"
+                app:layout_constraintEnd_toStartOf="@+id/childCountSwitch"
+                app:layout_constraintTop_toBottomOf="@+id/status" />
+
+            <Switch
+                android:id="@+id/childCountSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/fiveChild"
+                app:layout_constraintTop_toBottomOf="@+id/status" />
+
+            <TextView
+                android:id="@+id/fiveChild"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/five_child"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/status" />
+
+            <TextView
+                android:id="@+id/topScaleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/topScaleText"
+                app:layout_constraintEnd_toStartOf="@id/topScaleBar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/horizontal" />
+
+            <SeekBar
+                android:id="@+id/topScaleBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:padding="8dp"
+                android:progress="100"
+                app:layout_constraintBottom_toBottomOf="@+id/topScaleText"
+                app:layout_constraintEnd_toStartOf="@id/topAlphaText"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/topScaleText" />
+
+            <TextView
+                android:id="@+id/topAlphaText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/topAlphaText"
+                app:layout_constraintBottom_toBottomOf="@+id/topScaleText"
+                app:layout_constraintEnd_toStartOf="@id/topAlphaBar"
+                app:layout_constraintStart_toEndOf="@+id/topScaleBar" />
+
+            <SeekBar
+                android:id="@+id/topAlphaBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/topScaleText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/topAlphaText" />
+
+            <TextView
+                android:id="@+id/middleScaleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/middleScaleText"
+                app:layout_constraintEnd_toStartOf="@id/middleScaleBar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topScaleText" />
+
+            <SeekBar
+                android:id="@+id/middleScaleBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:padding="8dp"
+                android:progress="80"
+                app:layout_constraintBottom_toBottomOf="@+id/middleScaleText"
+                app:layout_constraintEnd_toStartOf="@id/middleAlphaText"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/middleScaleText" />
+
+            <TextView
+                android:id="@+id/middleAlphaText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/middleAlphaText"
+                app:layout_constraintBottom_toBottomOf="@+id/middleScaleText"
+                app:layout_constraintEnd_toStartOf="@id/middleAlphaBar"
+                app:layout_constraintStart_toEndOf="@+id/middleScaleBar" />
+
+            <SeekBar
+                android:id="@+id/middleAlphaBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:padding="8dp"
+                android:progress="60"
+                app:layout_constraintBottom_toBottomOf="@+id/middleScaleText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/middleAlphaText" />
+
+            <TextView
+                android:id="@+id/bottomScaleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/bottomScaleText"
+                app:layout_constraintEnd_toStartOf="@id/bottomScaleBar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/middleScaleText" />
+
+            <SeekBar
+                android:id="@+id/bottomScaleBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:padding="8dp"
+                android:progress="60"
+                app:layout_constraintBottom_toBottomOf="@+id/bottomScaleText"
+                app:layout_constraintEnd_toStartOf="@id/bottomAlphaText"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/bottomScaleText" />
+
+            <TextView
+                android:id="@+id/bottomAlphaText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/bottomAlphaText"
+                app:layout_constraintBottom_toBottomOf="@+id/bottomScaleText"
+                app:layout_constraintEnd_toStartOf="@id/bottomAlphaBar"
+                app:layout_constraintStart_toEndOf="@+id/bottomScaleBar" />
+
+            <SeekBar
+                android:id="@+id/bottomAlphaBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:padding="8dp"
+                android:progress="80"
+                app:layout_constraintBottom_toBottomOf="@+id/bottomScaleText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/bottomAlphaText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,7 +26,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateInterpolator
-import com.lee.utilslibrary.dp
+import com.ant.base.dp
 
 /**
  * <p>------------------------------------------------------

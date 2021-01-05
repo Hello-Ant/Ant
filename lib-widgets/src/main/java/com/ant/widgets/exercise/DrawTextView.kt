@@ -20,7 +20,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import com.lee.utilslibrary.dp
+import com.ant.base.dp
 import kotlin.math.min
 
 /**

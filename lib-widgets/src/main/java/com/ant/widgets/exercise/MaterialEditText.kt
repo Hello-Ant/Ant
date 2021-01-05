@@ -24,7 +24,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import com.example.widgets.R
-import com.lee.utilslibrary.dp
+import com.ant.base.dp
 
 /**
  * <p>------------------------------------------------------

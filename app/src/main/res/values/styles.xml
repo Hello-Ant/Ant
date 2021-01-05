@@ -8,4 +8,30 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <declare-styleable name="LitePager">
+        <attr format="enum" name="orientation">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+
+        <attr format="integer" name="flingDuration"/>
+        <attr format="float" name="smallScale"/>
+        <attr format="float" name="smallAlpha"/>
+        <attr format="float" name="bottomScale"/>
+        <attr format="float" name="bottomAlpha"/>
+        <attr format="float" name="middleScale"/>
+        <attr format="float" name="middleAlpha"/>
+        <attr format="float" name="topScale"/>
+        <attr format="float" name="topAlpha"/>
+        <attr format="boolean" name="autoScroll"/>
+        <attr format="integer" name="autoScrollInterval"/>
+        <attr format="enum" name="autoScrollOrientation">
+            <enum name="left" value="0"/>
+            <enum name="right" value="1"/>
+            <enum name="up" value="0"/>
+            <enum name="down" value="1"/>
+        </attr>
+
+    </declare-styleable>
+
 </resources>

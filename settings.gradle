@@ -1,3 +1,4 @@
+include ':lib-rx'
 include ':app', ':lib-gaussianBlur', ':lib-widgets', ':lib-base'
 rootProject.name='Ant'
 include ':ant-notes'

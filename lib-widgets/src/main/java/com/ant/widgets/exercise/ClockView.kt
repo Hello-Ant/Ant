@@ -23,7 +23,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
-import com.lee.utilslibrary.dp
+import com.ant.base.dp
 import java.util.*
 import kotlin.math.min
 

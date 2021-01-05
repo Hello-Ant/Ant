@@ -27,7 +27,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
+
+        /*sl.setOnClickListener {
+            val anim = ObjectAnimator.ofFloat(0f, 360f).apply {
+                duration = 3000
+                addUpdateListener {
+                    println("${it.animatedValue}")
+                    sl.startAngle = (it.animatedValue as Float).toDouble()
+                }
+            }
+            anim.start()
+        }*/
+
         /*explosionField = ExplosionField(this, FallingParticleFactory())
         explosionField.addListener(iv_explosion)
         explosionField.addListener(dbv)

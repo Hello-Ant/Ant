@@ -1,12 +1,12 @@
 package com.lee.ant
 
-import androidx.test.platform.app.InstrumentationRegistry
+import android.os.Handler
+import android.os.Looper
 import androidx.test.ext.junit.runners.AndroidJUnit4
-
+import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -20,5 +20,26 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.lee.ant", appContext.packageName)
+    }
+
+    @Test
+    fun testLooper() {
+        Thread {
+            Looper.prepare()
+
+            val h = Handler(Looper.myLooper()) { msg ->
+                println("handleMessage what = ${msg.what}")
+                true
+            }
+
+            h.sendEmptyMessage(1)
+            println("start sleep")
+            Thread.sleep(1000)
+            println("end sleep, start loop")
+            h.sendEmptyMessage(2)
+            Looper.loop()
+        }.start()
+
+        Thread.sleep(10000)
     }
 }

@@ -24,8 +24,18 @@ dependencies {
 
     implementation ds['okhttp']
 
-    if (!isModule) {
+    /*if (!isModule) {
         implementation project(':blurlibrary')
         implementation project(':customwidgets')
-    }
+    }*/
+
+    implementation('com.android.support:design:28.0.0')
+    implementation 'androidx.activity:activity:1.2.0-beta01'
+    implementation 'androidx.fragment:fragment:1.3.0-beta01'
+
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.7'
+//    implementation 'io.reactivex.rxjava3:rxAndroid:3.0.0'
+
+    // debugImplementation because LeakCanary should only run in debug builds.
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
 }

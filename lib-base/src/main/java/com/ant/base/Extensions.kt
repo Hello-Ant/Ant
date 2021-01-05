@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.lee.utilslibrary
+package com.ant.base
 
 import android.content.res.Resources
 import android.util.TypedValue

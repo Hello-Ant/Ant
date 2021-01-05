@@ -25,7 +25,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.example.widgets.R
 import com.lee.utilslibrary.BitmapUtils
-import com.lee.utilslibrary.dp
+import com.ant.base.dp
 
 /**
  * <p>------------------------------------------------------
