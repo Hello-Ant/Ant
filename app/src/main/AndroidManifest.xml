@@ -2,15 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lee.ant">
 
+    <permission
+        android:name="com.lee.ant.permission.ACCESS_BOOK_MANAGER_SERVICE"
+        android:protectionLevel="normal" />
+
+    <uses-permission android:name="com.lee.ant.permission.ACCESS_BOOK_MANAGER_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:networkSecurityConfig="@xml/app_network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".aidl.TestAidlActivity">
             <!--        <activity android:name=".route.test.RouteActivity">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,6 +28,17 @@
         <activity android:name=".route.test.OrderActivity" />
         <activity android:name=".result.ResultTargetActivity" />
         <activity android:name=".result.ResultTestActivity" />
+
+        <service
+            android:name=".aidl.BookManagerService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.lee.ant.permission.ACCESS_BOOK_MANAGER_SERVICE"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.lee.ant.action.BOOK_MANAGER_SERVICE" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
