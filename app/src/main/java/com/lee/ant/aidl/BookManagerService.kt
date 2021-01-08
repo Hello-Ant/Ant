@@ -74,13 +74,13 @@ class BookManagerService : Service() {
     override fun onBind(intent: Intent?): IBinder? {
         Log.e(TAG, "onBind: $intent")
         // 验证权限方式1
-        checkCallingOrSelfPermission(ACCESS_BOOK_MANAGER_SERVICE)
+        /*checkCallingOrSelfPermission(ACCESS_BOOK_MANAGER_SERVICE)
             .takeIf {
                 it == PackageManager.PERMISSION_DENIED
             }?.let {
                 Log.e(TAG, "onBind: permission denied")
                 return null
-            } ?: return mBinder
+            } ?:*/ return mBinder
     }
 
     private fun findIndexById(id: Long): Int {
