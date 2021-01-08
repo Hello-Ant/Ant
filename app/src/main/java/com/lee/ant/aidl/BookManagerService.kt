@@ -73,7 +73,7 @@ class BookManagerService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         Log.e(TAG, "onBind: $intent")
-        // 验证权限方式1
+        // 验证权限方式1 这只能检测自己是否有权限，不能检测其他应用访问时是否具有权限
         /*checkCallingOrSelfPermission(ACCESS_BOOK_MANAGER_SERVICE)
             .takeIf {
                 it == PackageManager.PERMISSION_DENIED
