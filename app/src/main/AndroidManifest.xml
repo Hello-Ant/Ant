@@ -33,6 +33,7 @@
             android:name=".aidl.BookManagerService"
             android:enabled="true"
             android:exported="true"
+            android:permission="com.lee.ant.permission.ACCESS_BOOK_MANAGER_SERVICE"
             android:process=":remote">
             <intent-filter>
                 <action android:name="com.lee.ant.action.BOOK_MANAGER_SERVICE" />
